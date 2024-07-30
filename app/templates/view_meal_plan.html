@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>{{ plan.name }}</h2>
+<ul>
+    {% for recipe in plan.recipes %}
+    <li>{{ recipe.name }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}

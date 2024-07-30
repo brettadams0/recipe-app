@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Meal Plans</h2>
+<form method="POST" action="{{ url_for('meal_plan.create_meal_plan') }}">
+    <input type="text" name="name" placeholder="Meal Plan Name">
+    <button type="submit">Create Meal Plan</button>
+</form>
+<ul>
+    {% for plan in meal_plans %}
+    <li>
+        <a href="{{ url_for('meal_plan.view_meal_plan', plan_id=plan.id) }}">{{ plan.name }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Recipes</h2>
+<form method="GET" action="{{ url_for('recipes.recipe_search') }}">
+    <input type="text" name="query" placeholder="Search for recipes...">
+    <button type="submit">Search</button>
+</form>
+<ul>
+    {% for recipe in recipes %}
+    <li>
+        <a href="{{ url_for('recipes.recipe_detail', recipe_id=recipe['id']) }}">{{ recipe['title'] }}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
