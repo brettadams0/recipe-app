@@ -13,6 +13,11 @@ class Recipe(db.Model):
     ingredients = db.Column(db.Text, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # MealPlan.recipes declares a relationship to Recipe, but nothing linked the
+    # two tables, so SQLAlchemy raised NoForeignKeysError while configuring
+    # mappers — which broke every query in the app, not just meal plans.
+    # Nullable because a recipe can exist before it is added to a plan.
+    meal_plan_id = db.Column(db.Integer, db.ForeignKey('meal_plan.id'), nullable=True)
 
 class MealPlan(db.Model):
     id = db.Column(db.Integer, primary_key=True)

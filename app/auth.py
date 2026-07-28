@@ -34,7 +34,14 @@ def register_post():
     if user:
         flash('Email address already exists')
         return redirect(url_for('auth.register'))
-    new_user = User(email=email, username=username, password=generate_password_hash(password, method='sha256'))
+    # Werkzeug 3 removed the bare 'sha256' method, and a single unsalted round
+    # was never suitable for passwords. pbkdf2:sha256 is the salted, iterated
+    # default.
+    new_user = User(
+        email=email,
+        username=username,
+        password=generate_password_hash(password, method='pbkdf2:sha256'),
+    )
     db.session.add(new_user)
     db.session.commit()
     return redirect(url_for('auth.login'))

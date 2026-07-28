@@ -3,15 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NBA Stats and News Aggregator</title>
+    <title>{% block title %}Recipe Planner{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ url_for('compare') }}">Compare Players</a>
+        <a href="{{ url_for('main.index') }}">Home</a>
+        <a href="{{ url_for('recipes.recipe_search') }}">Recipes</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('meal_plan.meal_plan_index') }}">Meal Plans</a>
+            <a href="{{ url_for('auth.logout') }}">Log out</a>
+        {% else %}
+            <a href="{{ url_for('auth.login') }}">Log in</a>
+            <a href="{{ url_for('auth.register') }}">Register</a>
+        {% endif %}
     </nav>
     <div class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}<li>{{ message }}</li>{% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
         {% block content %}{% endblock %}
     </div>
 </body>
